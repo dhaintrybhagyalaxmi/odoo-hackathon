@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Leave Approvals{% endblock %}
+
+{% block content %}
+<h2>All Leave Requests</h2>
+
+<table class="data-table">
+    <tr>
+        <th>Employee</th>
+        <th>Type</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Remarks</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    {% for leave in leaves %}
+    <tr>
+        <td>{{ leave.employee.username }}</td>
+        <td>{{ leave.get_leave_type_display }}</td>
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.remarks|default:"-" }}</td>
+        <td>{{ leave.get_status_display }}</td>
+        <td>
+            {% if leave.status == 'pending' %}
+            <form method="POST" style="display:flex; gap:5px;">
+                {% csrf_token %}
+                <input type="hidden" name="leave_id" value="{{ leave.id }}">
+                <input type="text" name="admin_comment" placeholder="Comment (optional)">
+                <button type="submit" name="action" value="approve">Approve</button>
+                <button type="submit" name="action" value="reject">Reject</button>
+            </form>
+            {% else %}
+                -
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+{% endblock %}

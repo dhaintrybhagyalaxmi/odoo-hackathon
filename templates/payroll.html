@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}My Payroll{% endblock %}
+
+{% block content %}
+<h2>My Salary Details</h2>
+
+<div class="form-box">
+    <p><strong>Basic Salary:</strong> ₹{{ salary.basic_salary }}</p>
+    <p><strong>HRA:</strong> ₹{{ salary.hra }}</p>
+    <p><strong>Bonus:</strong> ₹{{ salary.bonus }}</p>
+    <p><strong>Deductions:</strong> ₹{{ salary.deductions }}</p>
+    <hr>
+    <p><strong>Net Salary:</strong> ₹{{ salary.net_salary }}</p>
+    <p><small>Last updated: {{ salary.last_updated }}</small></p>
+</div>
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+{% endblock %}

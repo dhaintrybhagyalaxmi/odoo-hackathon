@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Attendance{% endblock %}
+
+{% block content %}
+<h2>My Attendance</h2>
+
+<div class="form-box">
+    <p><strong>Today's Date:</strong> {{ today_record.date }}</p>
+    <p><strong>Check-in:</strong> {{ today_record.check_in|default:"Not yet" }}</p>
+    <p><strong>Check-out:</strong> {{ today_record.check_out|default:"Not yet" }}</p>
+    <p><strong>Status:</strong> {{ today_record.status }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% if not today_record.check_in %}
+            <button type="submit" name="action" value="check_in">Check In</button>
+        {% elif not today_record.check_out %}
+            <button type="submit" name="action" value="check_out">Check Out</button>
+        {% else %}
+            <p>Attendance completed for today ✅</p>
+        {% endif %}
+    </form>
+</div>
+
+<h3>Recent Records</h3>
+<table class="data-table">
+    <tr>
+        <th>Date</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Status</th>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.date }}</td>
+        <td>{{ record.check_in|default:"-" }}</td>
+        <td>{{ record.check_out|default:"-" }}</td>
+        <td>{{ record.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+{% endblock %}

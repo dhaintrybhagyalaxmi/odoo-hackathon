@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<h2>My Profile</h2>
+
+<div class="form-box">
+    <p><strong>Employee ID:</strong> {{ profile.employee_id }}</p>
+    <p><strong>Name:</strong> {{ profile.user.username }}</p>
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    <p><strong>Role:</strong> {{ profile.get_role_display }}</p>
+    <p><strong>Department:</strong> {{ profile.department|default:"-" }}</p>
+    <p><strong>Designation:</strong> {{ profile.designation|default:"-" }}</p>
+    <p><strong>Date Joined:</strong> {{ profile.date_joined }}</p>
+
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" width="100">
+    {% endif %}
+
+    <h3>Edit Details</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+{% endblock %}

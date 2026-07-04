@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}All Attendance Records{% endblock %}
+
+{% block content %}
+<h2>All Employees' Attendance</h2>
+
+<table class="data-table">
+    <tr>
+        <th>Employee</th>
+        <th>Date</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Status</th>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.employee.username }}</td>
+        <td>{{ record.date }}</td>
+        <td>{{ record.check_in|default:"-" }}</td>
+        <td>{{ record.check_out|default:"-" }}</td>
+        <td>{{ record.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+{% endblock %}

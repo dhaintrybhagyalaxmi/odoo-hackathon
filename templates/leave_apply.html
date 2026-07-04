@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Leave Requests{% endblock %}
+
+{% block content %}
+<h2>Apply for Leave</h2>
+
+<div class="form-box">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Request</button>
+    </form>
+</div>
+
+<h3>My Leave History</h3>
+<table class="data-table">
+    <tr>
+        <th>Type</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Status</th>
+        <th>Admin Comment</th>
+    </tr>
+    {% for leave in my_leaves %}
+    <tr>
+        <td>{{ leave.get_leave_type_display }}</td>
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.get_status_display }}</td>
+        <td>{{ leave.admin_comment|default:"-" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+{% endblock %}

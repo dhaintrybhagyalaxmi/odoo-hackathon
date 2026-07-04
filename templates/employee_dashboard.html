@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Employee Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ profile.user.username }} ({{ profile.employee_id }})</h2>
+
+<div class="card-grid">
+    <a href="{% url 'profile_view' %}" class="dashboard-card">
+        <h3>Profile</h3>
+        <p>View & edit your details</p>
+    </a>
+
+    <a href="{% url 'attendance_view' %}" class="dashboard-card">
+        <h3>Attendance</h3>
+        <p>Check-in / Check-out</p>
+    </a>
+
+    <a href="{% url 'leave_apply' %}" class="dashboard-card">
+        <h3>Leave Requests</h3>
+        <p>Apply & track status</p>
+    </a>
+
+    <a href="{% url 'payroll_view' %}" class="dashboard-card">
+        <h3>Payroll</h3>
+        <p>View your salary</p>
+    </a>
+
+    <a href="{% url 'logout' %}" class="dashboard-card">
+        <h3>Logout</h3>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Payroll Management{% endblock %}
+
+{% block content %}
+<h2>Manage Employee Payroll</h2>
+
+<table class="data-table">
+    <tr>
+        <th>Employee</th>
+        <th>Basic</th>
+        <th>HRA</th>
+        <th>Bonus</th>
+        <th>Deductions</th>
+        <th>Net</th>
+        <th>Update</th>
+    </tr>
+    {% for salary in salaries %}
+    <tr>
+        <td>{{ salary.employee.username }}</td>
+        <td>{{ salary.basic_salary }}</td>
+        <td>{{ salary.hra }}</td>
+        <td>{{ salary.bonus }}</td>
+        <td>{{ salary.deductions }}</td>
+        <td>₹{{ salary.net_salary }}</td>
+        <td>
+            <form method="POST" style="display:flex; gap:5px; flex-wrap:wrap;">
+                {% csrf_token %}
+                <input type="hidden" name="employee_id" value="{{ salary.employee.id }}">
+                <input type="number" name="basic_salary" value="{{ salary.basic_salary }}" placeholder="Basic" style="width:80px;">
+                <input type="number" name="hra" value="{{ salary.hra }}" placeholder="HRA" style="width:80px;">
+                <input type="number" name="bonus" value="{{ salary.bonus }}" placeholder="Bonus" style="width:80px;">
+                <input type="number" name="deductions" value="{{ salary.deductions }}" placeholder="Deductions" style="width:80px;">
+                <button type="submit">Update</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+{% endblock %}
